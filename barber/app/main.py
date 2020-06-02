@@ -4,7 +4,6 @@ from flask import Flask, request, render_template, redirect, session
 from flask_bootstrap import Bootstrap
 import db
 from forms import LoginForm, RegisterForm, OrderForm, StatusForm
-from datetime import datetime
 app = Flask(__name__)
 
 Bootstrap(app)
@@ -113,7 +112,7 @@ def create_order():
 """
         db.db_save(query)
         session['current_user_cart'] = db.db_get(f'select * from cart where buser_id={user_id} and status_id=6;')
-        return redirect('/')
+        return redirect('/success')
     data = db.db_get(
         f"""select * from service where id in (select service_id  from Service_cart_rel where cart_id={session.get('current_user_cart')['id']});""",
         cur_type='all')
@@ -172,6 +171,11 @@ def prepare_data(data):
 @app.route('/rejected', methods=['GET'])
 def rejected():
     return render_template('rejected.html')
+
+
+@app.route('/success', methods=['GET'])
+def success():
+    return render_template('success.html')
 
 
 if __name__ == '__main__':
