@@ -16,7 +16,7 @@ class RegisterForm(ft.FlaskForm):
 
 
 class OrderForm(ft.FlaskForm):
-    payment_type = f.SelectField('Тип оплаты',choices=['Наличные', 'Карта'])
+    payment_type = f.SelectField('Тип оплаты', choices=['Наличные', 'Карта'], validate_choice=False)
     name = f.StringField('Имя', [f.validators.Length(min=1, max=20)])
     last_name = f.StringField('Фамилия', [f.validators.Length(min=1, max=20)])
     surname = f.StringField('Отчество', [f.validators.Length(min=1, max=20)])

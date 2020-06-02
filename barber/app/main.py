@@ -5,7 +5,7 @@ from flask_bootstrap import Bootstrap
 import db
 from forms import LoginForm, RegisterForm, OrderForm, StatusForm
 app = Flask(__name__)
-
+from datetime import datetime
 Bootstrap(app)
 
 
@@ -14,7 +14,7 @@ def login_view():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         query = f"""
-        SELECT * FROM Buser where login='{form.login.data}';
+        SELECT * FROM Buser where login='{form.login.data}' and password='{form.password.data}';
         """
         user = db.db_get(query)
         if not user:
@@ -103,7 +103,7 @@ def create_order():
         db.db_save(query)
         session['current_user_cart'] = db.db_get(f'select * from cart where buser_id={user_id} and status_id=6;')
         return redirect('/rejected')
-    elif request.method == 'POST' and price:
+    elif request.method == 'POST' and price and form.validate():
         query = f"""UPDATE Buser set name='{form.name.data}', last_name='{form.last_name.data}', surname='{form.surname.data}', phone='{form.phone.data}' where id={user_id};
                     update cart set status_id=7 where id={cart_id};
                     insert into cart (Buser_id, Status_id) values ({user_id}, 6);
