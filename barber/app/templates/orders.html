@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% block content %}
+
+    <nav class="nav">
+        <a class="nav-link active" href="/manage_orders/1">Подтвержденные</a>
+        <a class="nav-link" href="/manage_orders/2">В реализации</a>
+        <a class="nav-link" href="/manage_orders/3">Отклонены</a>
+        <a class="nav-link" href="/manage_orders/4">Завершены</a>
+        <a class="nav-link" href="/manage_orders/5">Оплачены</a>
+    </nav>
+
+    {% if data %}
+        <table class="table table-bordered">
+            <tr>
+                <th></th>
+                <th>Service</th>
+                <th>Room</th>
+                <th>Master</th>
+                <th>Time</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            {% for item in data %}
+                <tr>
+                    <td>{{ item.id }}    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.room }}</td>
+                    <td>{{ item.master }}</td>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                        <form method="post" action="/manage_orders/{{ status_id }}?ord_id={{ item.id }}">
+                            <input type="hidden" name='if' value="3">
+                            {{ wtf.quick_form(form) }}
+                        </form>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock content %}
