@@ -51,9 +51,9 @@ def create_db():
     CREATE TABLE Category (id integer primary key not null, name varchar(40));
     CREATE TABLE Status (id integer primary key not null, name varchar(40));
     CREATE TABLE Role (id integer primary key not null, name varchar(40));
-    CREATE TABLE Buser (id serial primary key not null, name varchar(20), last_name varchar(20), surname varchar(20), phone varchar(20), login varchar(30), email varchar(30), password varchar(30), Role_id integer not null references Role(id));
-    CREATE TABLE Border (id serial primary key not null, Buser_id integer NOT null references Buser(id), Status_id integer NOT null references Status(id), created_at date , payment_type varchar(20));
-    CREATE TABLE Service (id integer primary key not null, Category_id integer NOT null REFERENCES Category(id), name varchar(40) , room varchar (10), master varchar (60), price integer , time integer );
+    CREATE TABLE Buser (id serial primary key not null, name varchar(20), last_name varchar(20), surname varchar(20), phone varchar(20), login varchar(30), password varchar(30), Role_id integer not null references Role(id));
+    CREATE TABLE Border (id serial primary key not null, Buser_id integer NOT null references Buser(id), Status_id integer NOT null references Status(id), created_at date , payment_type varchar(20), time timestamp , price integer );
+    CREATE TABLE Service (id integer primary key not null, Category_id integer NOT null REFERENCES Category(id), sname varchar(40) , room varchar (10), master varchar (60), price integer , time integer );
     CREATE TABLE Cart (id serial primary key not null, Buser_id integer NOT null  references Buser(id), Status_id integer not null references Status(id));
     CREATE TABLE Service_cart_rel (id serial primary key not null, Service_id integer NOT null  REFERENCES Service(id), Cart_id integer NOT null  references Cart(id));
     CREATE TABLE Order_cart_rel (id serial primary key not null, Cart_id integer NOT null references Cart(id), Border_id integer NOT null references Border(id));
@@ -62,7 +62,8 @@ def create_db():
     RETURNS trigger AS
         $BODY$
             BEGIN
-                    INSERT INTO Border (created_at) values (NOW());
+                    update Border set created_at=NOW();
+                    RETURN NULL;
             END;
         $BODY$
     LANGUAGE plpgsql VOLATILE
@@ -77,10 +78,10 @@ def create_db():
 def fill_db():
     query = f"""
         INSERT INTO Role (id, name) VALUES (1, 'manager'), (2, 'user');
-        INSERT INTO Status (id, name) VALUES  (1, 'Подтвержденный'), (2, 'В реализации'), (3, 'Отклонен'), (4, 'Завершен'), (5, 'Оплачен'),  (6, 'active'), (7, 'processed');
+        INSERT INTO Status (id, name) VALUES  (1, 'Cозданный'), (2, 'В реализации'), (3, 'Отклонен'), (4, 'Завершен'), (5, 'Оплачен'),  (6, 'active'), (7, 'processed');
         INSERT INTO Category (id, name) VALUES (1, 'Стрижка'), (2, 'Косметология'), (3, 'Массаж'), (4, 'Маникюр и Педикюр');
         INSERT INTO Buser (name , last_name, surname, phone, login, password, Role_id) VALUES ('admin', 'admin', 'admin', '+380501395526', 'admin', '3edc$RFV', 1);
-        INSERT INTO Service (id, Category_id,  name, room, master, price, time) VALUES
+        INSERT INTO Service (id, Category_id,  sname, room, master, price, time) VALUES
             (1, 1, 'Женская cтрижка', '2 каб.', 'Белозерова Е.Е.', 120, 60),
             (2, 1, 'Мужская cтрижка', '3 каб.', 'Иванова Е.Г.', 100, 50),
             (3, 1, 'Детская cтрижка', '5 каб.', 'Корикова С.В.', 80, 40),

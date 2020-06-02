@@ -4,17 +4,17 @@
     <table class="table table-bordered">
         <tr>
           <th></th>
-          <th>Service</th>
-          <th>Room</th>
-          <th>Master</th>
-          <th>Time</th>
-          <th>Price</th>
+          <th>Услуга</th>
+          <th>Кабинет</th>
+          <th>Мастер</th>
+          <th>Время</th>
+          <th>Цена</th>
           <th></th>
         </tr>
     {% for item in data %}
         <tr>
             <td>{{ item.id }}    </td>
-            <td>{{ item.name }}</td>
+            <td>{{ item.sname }}</td>
             <td>{{ item.room }}</td>
             <td>{{ item.master }}</td>
             <td>{{ item.time }}</td>

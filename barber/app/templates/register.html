@@ -1,7 +1,12 @@
 {% extends 'main.html' %}
 {% block content %}
-        <h3 class="text-danger bold">Регистрация</h3>
-    <div>
+        <div class="row">
+        <h3 class="text-primary bold">Регистрация</h3>
+        </div>
+    {% if alert %}
+        <h4 class="text-danger bold">{{ alert }}</h4>
+    {% endif %}
+    <div class="col-md-12">
         {{ wtf.quick_form(form) }}
 
     </div>

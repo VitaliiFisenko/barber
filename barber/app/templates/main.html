@@ -19,6 +19,12 @@
 <body>
 {% import "bootstrap/wtf.html" as wtf %}
 <div class="container container-fluid">
+    <div>
+        {% if  session.current_user %}
+            <a class="btn-primary btn btn-lg" href="/logout">Выход</a>
+            <h5> Вы {{ session.current_user.login }}</h5>
+        {% endif %}
+    </div>
     {% block content %}
     {% endblock content %}
 </div>

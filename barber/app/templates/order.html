@@ -1,16 +1,16 @@
 {% extends 'main.html' %}
 {% block content %}
-    {% if data.data %}
-        <table class="table table-bordered">
-            <tr>
-                <th></th>
-                <th>Service</th>
-                <th>Room</th>
-                <th>Master</th>
-                <th>Time</th>
-                <th>Price</th>
-                <th></th>
-            </tr>
+    <table class="table table-bordered">
+        <tr>
+            <th></th>
+            <th>Service</th>
+            <th>Room</th>
+            <th>Master</th>
+            <th>Time</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        {% if data.data %}
             {% for item in data.data %}
                 <tr>
                     <td>{{ item.id }}    </td>
@@ -21,15 +21,23 @@
                     <td>{{ item.price }}</td>
                 </tr>
             {% endfor %}
-        </table>
-    {% endif %}
+        {% endif %}
+    </table>
     <h2 class="text-success">Всего :{{ data.price }}</h2>
 
-    {{ wtf.quick_form(form) }}
+    <div class="container">
+        <div class="col-md-12">
+            <form method="post" action="/create_order?price={{ data.price }}">
+            {{ wtf.quick_form(form) }}
+            </form>
+        </div>
+    </div>
+    <div class="container">
+           <div class="col-md-6">
+            <form method="post" action="/create_order?reject=1">
+                <button class="btn btn-danger">Oтменить заказ</button>
+            </form>
+        </div>
+    </div>
 
-        {% if oreder_exist %}
-        <form method="patch" action="/create_order">
-            <button>Подтвердить заказ</button>
-        </form>
-    {% endif %}
 {% endblock content %}

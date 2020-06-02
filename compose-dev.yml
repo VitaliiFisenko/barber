@@ -2,11 +2,11 @@ version: '3'
 
 services:
   web:
-    image: "${PROJECT_IMAGE}"
+    image: "barber:develop"
     container_name: barber_web_1
     command: bash -c "python3 app/main.py"
     ports:
-      - "5000:5000"
+      - "8008:8008"
     volumes:
       - ./barber/:/barber/
     restart: always

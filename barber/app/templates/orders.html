@@ -9,34 +9,37 @@
         <a class="nav-link" href="/manage_orders/5">Оплачены</a>
     </nav>
 
-    {% if data %}
         <table class="table table-bordered">
             <tr>
-                <th></th>
-                <th>Service</th>
-                <th>Room</th>
-                <th>Master</th>
-                <th>Time</th>
-                <th>Price</th>
+                <th>ФИО</th>
+                <th>Номер телефона</th>
+                <th>Услуги</th>
+                <th>Тип оплаты</th>
+                <th>Время проведения</th>
+                <th>Цена</th>
                 <th></th>
             </tr>
+        {% if data %}
             {% for item in data %}
                 <tr>
-                    <td>{{ item.id }}    </td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.room }}</td>
-                    <td>{{ item.master }}</td>
+                    <td>{{ item.fio }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>
+                        {% for serv in item.services %}
+                            {{ serv }}
+                            {% endfor %}
+                    </td>
+                    <td>{{ item.payment_type}}</td>
                     <td>{{ item.time }}</td>
                     <td>{{ item.price }}</td>
                     <td>
                         <form method="post" action="/manage_orders/{{ status_id }}?ord_id={{ item.id }}">
-                            <input type="hidden" name='if' value="3">
                             {{ wtf.quick_form(form) }}
                         </form>
 
                     </td>
                 </tr>
             {% endfor %}
+         {% endif %}
         </table>
-    {% endif %}
 {% endblock content %}

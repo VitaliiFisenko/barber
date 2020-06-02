@@ -14,7 +14,7 @@
     {% for item in data.data %}
         <tr>
             <td>{{ item.id }}    </td>
-            <td>{{ item.name }}</td>
+            <td>{{ item.sname }}</td>
             <td>{{ item.room }}</td>
             <td>{{ item.master }}</td>
             <td>{{ item.time }}</td>
@@ -25,4 +25,9 @@
         <a href="/create_order">Перейти к офрмлению заказа</a>
 
     <h2 class="text-success">Всего :{{ data.price }}</h2>
+    {% else %}
+        <h3 class="text-danger">Корзина пуста</h3>
+
+        <a  class="btn-primary btn btn-lg" href="/">К услугам</a>
+    {%  endif %}
 {% endblock content%}
