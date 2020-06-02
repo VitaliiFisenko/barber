@@ -2,11 +2,11 @@
 {% block content %}
 
     <nav class="nav">
-        <a class="nav-link active" href="/manage_orders/1">Подтвержденные</a>
-        <a class="nav-link" href="/manage_orders/2">В реализации</a>
-        <a class="nav-link" href="/manage_orders/3">Отклонены</a>
-        <a class="nav-link" href="/manage_orders/4">Завершены</a>
-        <a class="nav-link" href="/manage_orders/5">Оплачены</a>
+        <a class="nav-link {% if request.view_args.status_id != 1 %}active{% else %}disabled{% endif %}" href="/manage_orders/1">Подтвержденные</a>
+        <a class="nav-link {% if request.view_args.status_id != 2 %}active{% else %}disabled{% endif %}" href="/manage_orders/2">В реализации</a>
+        <a class="nav-link {% if request.view_args.status_id != 3 %}active{% else %}disabled{% endif %}" href="/manage_orders/3">Отклонены</a>
+        <a class="nav-link {% if request.view_args.status_id != 4 %}active{% else %}disabled{% endif %}" href="/manage_orders/4">Завершены</a>
+        <a class="nav-link {% if  request.view_args.status_id  != 5 %}active{% else %}disabled{% endif %}" href="/manage_orders/5">Оплачены</a>
     </nav>
 
         <table class="table table-bordered">
